@@ -1,0 +1,31 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="kdGradient" x1="20" y1="20" x2="220" y2="140" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3BD0FF"/>
+      <stop offset="50%" stop-color="#4E9DFF"/>
+      <stop offset="100%" stop-color="#FF5AE0"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <text
+    x="120"
+    y="104"
+    text-anchor="middle"
+    font-size="118"
+    font-weight="900"
+    letter-spacing="-18"
+    font-family="'Arial Black', 'Segoe UI', sans-serif"
+    fill="url(#kdGradient)"
+    stroke="#BFE8FF"
+    stroke-width="3"
+    paint-order="stroke fill"
+    filter="url(#glow)"
+  >KD</text>
+</svg>
