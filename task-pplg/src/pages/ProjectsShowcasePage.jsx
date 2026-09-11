@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ExternalLink, FolderGit2, Plus, Star, Code2 } from 'lucide-react';
 
 const initialProjects = [
@@ -164,7 +164,7 @@ export default function ProjectsShowcasePage({ projects = initialProjects, setPr
                 </div>
             </div>
 
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '18px' }}>
+            <div className="projects-filter-bar" style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '18px' }}>
                 {allTechTags.map((tag) => (
                     <button
                         key={tag}
@@ -178,28 +178,26 @@ export default function ProjectsShowcasePage({ projects = initialProjects, setPr
                 ))}
             </div>
 
-            <div className="portfolio-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '18px' }}>
+            <div className="projects-grid portfolio-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '18px' }}>
                 {filteredProjects.map((project) => (
-                    <div key={project.id} className="card-panel-box" style={{ padding: '18px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                        <div
-                            style={{
-                                height: '120px',
-                                borderRadius: '12px',
-                                background: 'linear-gradient(135deg, rgba(168,85,247,0.15), rgba(56,189,248,0.12))',
-                                border: '1px solid rgba(255,255,255,0.08)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontWeight: 900,
-                                fontSize: '1.2rem',
-                                color: 'var(--text-main)'
-                            }}
-                        >
+                    <div key={project.id} className="project-card card-panel-box" style={{ padding: '18px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                        <div className="project-cover" style={{
+                            height: '120px',
+                            borderRadius: '12px',
+                            background: 'linear-gradient(135deg, rgba(168,85,247,0.15), rgba(56,189,248,0.12))',
+                            border: '1px solid rgba(255,255,255,0.08)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontWeight: 900,
+                            fontSize: '1.2rem',
+                            color: 'var(--text-main)'
+                        }}>
                             {project.title}
                         </div>
 
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <div style={{
+                        <div className="project-meta-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px' }}>
+                            <div className="project-category-badge" style={{
                                 fontSize: '0.72rem',
                                 background: 'rgba(56,189,248,0.12)',
                                 border: '1px solid rgba(56,189,248,0.35)',
@@ -209,17 +207,17 @@ export default function ProjectsShowcasePage({ projects = initialProjects, setPr
                             }}>
                                 {project.category}
                             </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+                            <div className="project-stars" style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
                                 <Star size={14} style={{ color: '#fbbf24' }} /> {project.stars}
                             </div>
                         </div>
 
                         <div>
-                            <h3 style={{ fontSize: '1.08rem', marginBottom: '6px' }}>{project.title}</h3>
-                            <p style={{ color: 'var(--text-muted)', lineHeight: '1.55', fontSize: '0.85rem' }}>{project.description}</p>
+                            <h3 className="project-title" style={{ fontSize: '1.08rem', marginBottom: '6px' }}>{project.title}</h3>
+                            <p className="project-desc" style={{ color: 'var(--text-muted)', lineHeight: '1.55', fontSize: '0.85rem' }}>{project.description}</p>
                         </div>
 
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                        <div className="tech-tags project-tech-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                             {(project.tech || []).map((item, index) => (
                                 <span key={`${project.id}-${index}`} style={{
                                     background: 'rgba(168,85,247,0.12)',
@@ -234,7 +232,7 @@ export default function ProjectsShowcasePage({ projects = initialProjects, setPr
                             ))}
                         </div>
 
-                        <div style={{ display: 'flex', gap: '8px', marginTop: 'auto' }}>
+                        <div className="project-actions" style={{ display: 'flex', gap: '8px', marginTop: 'auto' }}>
                             {project.githubUrl && (
                                 <a href={project.githubUrl} target="_blank" rel="noreferrer" className="btn-secondary" style={{ flex: 1, textAlign: 'center', textDecoration: 'none', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', gap: '6px' }}>
                                     <FolderGit2 size={14} /> GitHub

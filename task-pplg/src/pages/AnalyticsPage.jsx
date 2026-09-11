@@ -1,7 +1,7 @@
 import { BarChart3, Printer, Trophy } from 'lucide-react';
 import SkillRadarChart from '../components/charts/SkillRadarChart';
 
-export default function AnalyticsPage({ tasks = [] }) {
+export default function AnalyticsPage({ tasks = [], competencyScores = [82, 76, 80, 74, 88, 79] }) {
     const completedTasks = tasks.filter((task) => task.completed || task.status === 'Done').length;
     const totalTasks = tasks.length || 1;
     const completionRate = Math.round((completedTasks / totalTasks) * 100);
@@ -10,12 +10,12 @@ export default function AnalyticsPage({ tasks = [] }) {
     const nextLevelProgress = Math.min(100, ((totalXp % 500) / 500) * 100);
 
     const skillRows = [
-        { label: 'React & UI', value: Math.min(100, completionRate + 18), xp: 760 },
-        { label: 'API & Data', value: Math.min(100, completionRate + 10), xp: 610 },
-        { label: 'Database', value: Math.min(100, completionRate + 8), xp: 540 },
-        { label: 'Testing', value: Math.min(100, completionRate + 12), xp: 680 },
-        { label: 'DevOps', value: Math.min(100, completionRate + 5), xp: 500 },
-        { label: 'Problem Solving', value: Math.min(100, completionRate + 15), xp: 640 }
+        { label: 'AI & Prompting', value: competencyScores[0] ?? 0, xp: 760 },
+        { label: 'System Analysis', value: competencyScores[1] ?? 0, xp: 610 },
+        { label: 'Backend (Laravel)', value: competencyScores[2] ?? 0, xp: 540 },
+        { label: 'QA & Testing', value: competencyScores[3] ?? 0, xp: 680 },
+        { label: 'Frontend (React)', value: competencyScores[4] ?? 0, xp: 500 },
+        { label: 'Git & Documentation', value: competencyScores[5] ?? 0, xp: 640 }
     ];
 
     const avgScore = Math.round(skillRows.reduce((sum, item) => sum + item.value, 0) / skillRows.length);
@@ -46,7 +46,7 @@ export default function AnalyticsPage({ tasks = [] }) {
                             <small>Profil kemampuan siswa secara keseluruhan</small>
                         </div>
                     </div>
-                    <SkillRadarChart />
+                    <SkillRadarChart scores={competencyScores} />
                 </div>
 
                 <div className="card-panel-box" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>

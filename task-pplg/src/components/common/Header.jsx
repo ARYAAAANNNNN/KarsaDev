@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Search, Bell, Mail, ChevronDown, LogOut } from 'lucide-react';
+import { Search, Bell, Mail, ChevronDown, LogOut, Menu } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 const notifications = [
@@ -14,7 +14,7 @@ const messages = [
     { id: 3, sender: 'Sarah', subject: 'Review grup proyek', preview: 'Saya sudah upload file revisi, silakan cek hasil pengerjaan.', time: 'Kemarin' },
 ];
 
-export default function Header({ profile, preferences, onOpenAuth }) {
+export default function Header({ profile, preferences, onOpenAuth, onToggleMobileMenu }) {
     const { user, logout } = useAuth();
     const [openMenu, setOpenMenu] = useState(null);
     const menuRef = useRef(null);
@@ -40,9 +40,27 @@ export default function Header({ profile, preferences, onOpenAuth }) {
 
     return (
         <header className="app-topbar">
-            <div className="topbar-search-box">
-                <input type="text" placeholder="Search Courses, Labs, Projects..." />
-                <Search size={16} className="search-icon-right" />
+            <div className="topbar-left-mobile-group">
+                <button
+                    type="button"
+                    className="mobile-menu-toggle"
+                    aria-label="Open mobile navigation"
+                    onClick={onToggleMobileMenu}
+                >
+                    <Menu size={20} />
+                </button>
+
+                <div className="header-brand">
+                    <div className="brand-logo-box">
+                        <img src="/logo-kd.svg" alt="KarsaDev Logo" />
+                    </div>
+                    <span className="brand-title">KarsaDev</span>
+                </div>
+
+                <div className="topbar-search-box">
+                    <input type="text" placeholder="Search Courses, Labs, Projects..." />
+                    <Search size={16} className="search-icon-right" />
+                </div>
             </div>
 
             <div className="topbar-actions-right" ref={menuRef}>

@@ -10,69 +10,90 @@ import {
     Settings,
     HelpCircle,
     CheckCheck,
-    Shield
+    Shield,
+    X
 } from 'lucide-react';
 
-export default function Sidebar({ currentView, setView, role }) {
+export default function Sidebar({ currentView, setView, role, className = '', mobileDrawer = false, onCloseMobileMenu }) {
     const isTeacherOrAdmin = role === 'teacher' || role === 'admin';
     const isAdmin = role === 'admin';
 
+    const handleNavigate = (view) => {
+        setView(view);
+        if (mobileDrawer && onCloseMobileMenu) {
+            onCloseMobileMenu();
+        }
+    };
+
     return (
-        <aside className="app-sidebar">
+        <aside className={`app-sidebar ${className}`.trim()}>
             <div>
-                <div className="sidebar-brand" onClick={() => setView('dashboard')}>
-                    <div className="brand-logo-box">
-                        <img src="/logo-kd.svg" alt="KarsaDev Logo" />
+                <div className="sidebar-top-row">
+                    <div className="sidebar-brand" onClick={() => handleNavigate('dashboard')}>
+                        <div className="brand-logo-box">
+                            <img src="/logo-kd.svg" alt="KarsaDev Logo" />
+                        </div>
+                        <span className="brand-title">KarsaDev</span>
                     </div>
-                    <span className="brand-title">KarsaDev</span>
+
+                    {mobileDrawer && onCloseMobileMenu && (
+                        <button
+                            type="button"
+                            className="sidebar-close-btn"
+                            onClick={onCloseMobileMenu}
+                            aria-label="Close navigation drawer"
+                        >
+                            <X size={18} />
+                        </button>
+                    )}
                 </div>
 
                 <nav className="sidebar-menu-top">
                     <button
                         className={`sidebar-btn ${currentView === 'dashboard' ? 'active' : ''}`}
-                        onClick={() => setView('dashboard')}
+                        onClick={() => handleNavigate('dashboard')}
                     >
                         <LayoutDashboard size={18} /> Dashboard
                     </button>
 
                     <button
                         className={`sidebar-btn ${currentView === 'courses' ? 'active' : ''}`}
-                        onClick={() => setView('courses')}
+                        onClick={() => handleNavigate('courses')}
                     >
                         <Tv2 size={18} /> My Courses
                     </button>
 
                     <button
                         className={`sidebar-btn ${currentView === 'curriculum' ? 'active' : ''}`}
-                        onClick={() => setView('curriculum')}
+                        onClick={() => handleNavigate('curriculum')}
                     >
                         <BookOpen size={18} /> Curriculum
                     </button>
 
                     <button
                         className={`sidebar-btn ${currentView === 'projects' ? 'active' : ''}`}
-                        onClick={() => setView('projects')}
+                        onClick={() => handleNavigate('projects')}
                     >
                         <FolderGit2 size={18} /> Projects
                     </button>
 
                     <button
                         className={`sidebar-btn ${currentView === 'labs' ? 'active' : ''}`}
-                        onClick={() => setView('labs')}
+                        onClick={() => handleNavigate('labs')}
                     >
                         <FlaskConical size={18} /> Labs
                     </button>
 
                     <button
                         className={`sidebar-btn ${currentView === 'practice' ? 'active' : ''}`}
-                        onClick={() => setView('practice')}
+                        onClick={() => handleNavigate('practice')}
                     >
                         <Trophy size={18} /> Practice
                     </button>
 
                     <button
                         className={`sidebar-btn ${currentView === 'analytics' ? 'active' : ''}`}
-                        onClick={() => setView('analytics')}
+                        onClick={() => handleNavigate('analytics')}
                     >
                         <BarChart2 size={18} /> Analytics
                     </button>
@@ -80,7 +101,7 @@ export default function Sidebar({ currentView, setView, role }) {
                     {isTeacherOrAdmin && (
                         <button
                             className={`sidebar-btn ${currentView === 'grading' ? 'active' : ''}`}
-                            onClick={() => setView('grading')}
+                            onClick={() => handleNavigate('grading')}
                         >
                             <CheckCheck size={18} /> Grading
                         </button>
@@ -89,7 +110,7 @@ export default function Sidebar({ currentView, setView, role }) {
                     {isAdmin && (
                         <button
                             className={`sidebar-btn ${currentView === 'admin' ? 'active' : ''}`}
-                            onClick={() => setView('admin')}
+                            onClick={() => handleNavigate('admin')}
                         >
                             <Shield size={18} /> Admin Panel
                         </button>
@@ -100,21 +121,21 @@ export default function Sidebar({ currentView, setView, role }) {
             <div className="sidebar-menu-bottom">
                 <button
                     className={`sidebar-btn ${currentView === 'community' ? 'active' : ''}`}
-                    onClick={() => setView('community')}
+                    onClick={() => handleNavigate('community')}
                 >
                     <Users size={18} /> community
                 </button>
 
                 <button
                     className={`sidebar-btn ${currentView === 'settings' ? 'active' : ''}`}
-                    onClick={() => setView('settings')}
+                    onClick={() => handleNavigate('settings')}
                 >
                     <Settings size={18} /> Settings
                 </button>
 
                 <button
                     className={`sidebar-btn ${currentView === 'help' ? 'active' : ''}`}
-                    onClick={() => setView('help')}
+                    onClick={() => handleNavigate('help')}
                 >
                     <HelpCircle size={18} /> Help
                 </button>

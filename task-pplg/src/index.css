@@ -1566,17 +1566,230 @@ img {
   }
 }
 
-@media (max-width: 640px) {
-  .content-canvas {
-    padding: 18px 16px;
+@media (max-width: 768px) {
+  .app-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+  }
+
+  .desktop-sidebar {
+    display: none !important;
+  }
+
+  .main-wrapper {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .app-topbar {
+    padding: 0 12px;
+    min-height: 64px;
+    height: auto;
+    gap: 8px;
+  }
+
+  .topbar-left-mobile-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex-shrink: 0;
+  }
+
+  .brand-logo-box {
+    width: 30px;
+    height: 30px;
+  }
+
+  .brand-title {
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+
+  .mobile-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-main);
+    cursor: pointer;
+    flex-shrink: 0;
   }
 
   .topbar-search-box {
-    width: 220px;
+    display: none;
   }
 
-  .kanban-board {
+  .topbar-actions-right {
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .topbar-profile-pill {
+    display: flex;
+    padding: 4px 8px;
+  }
+
+  .profile-meta-text {
+    display: none;
+  }
+
+  .topbar-icon-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .topbar-dropdown-panel {
+    width: min(280px, calc(100vw - 22px));
+    right: -8px;
+  }
+
+  .content-canvas {
+    padding: 16px;
+  }
+
+  .dashboard-main-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .dashboard-left-col,
+  .dashboard-right-col {
+    gap: 16px;
+  }
+
+  .student-stats-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .stat-card-pill h2 {
+    font-size: 1.25rem;
+  }
+
+  .sprint-task-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(170px, 1fr));
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .projects-grid,
+  .curriculum-grid,
+  .card-grid,
+  .showcase-cards-row,
+  .portfolio-grid,
+  .lkpd-grid,
+  .course-grid,
+  .devlog-grid,
+  .form-grid-two,
+  .form-grid-three,
+  .kanban-board {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .project-card,
+  .curriculum-card,
+  .card-panel-box,
+  .portfolio-card,
+  .lkpd-card {
+    min-width: 0;
+    width: 100%;
+    padding: 16px !important;
+  }
+
+  .project-cover,
+  .portfolio-header-gradient {
+    height: 110px !important;
+    min-height: 110px;
+    font-size: 1rem !important;
+  }
+
+  .project-meta-row,
+  .module-meta-row,
+  .devlog-header {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .project-category-badge,
+  .module-subject-badge,
+  .log-badge {
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.4;
+  }
+
+  .project-stars,
+  .module-duration-badge {
+    white-space: nowrap;
+  }
+
+  .projects-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: thin;
+  }
+
+  .projects-filter-bar .btn-secondary {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .tech-tags {
+    gap: 6px;
+  }
+
+  .tech-tag,
+  .project-tech-tags span {
+    white-space: nowrap;
+  }
+
+  .project-actions,
+  .module-actions,
+  .portfolio-links {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .project-actions a,
+  .project-actions button,
+  .module-actions a,
+  .module-actions button,
+  .portfolio-links a,
+  .portfolio-links button {
+    width: 100%;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .auth-card {
+    width: min(92vw, 100%);
+    padding: 20px 18px;
+    border-radius: 20px;
   }
 
   .modal-actions {
@@ -1586,5 +1799,100 @@ img {
   .modal-actions .btn-primary,
   .modal-actions .btn-secondary {
     width: 100%;
+  }
+
+  .mobile-sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.56);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.24s ease;
+    z-index: 80;
+  }
+
+  .mobile-sidebar-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-sidebar-drawer {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(82vw, 290px);
+    height: 100vh;
+    z-index: 90;
+    transform: translateX(-110%);
+    transition: transform 0.25s ease;
+    box-shadow: 0 24px 48px rgba(2, 6, 23, 0.45);
+  }
+
+  .mobile-sidebar-drawer.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    padding-bottom: 8px;
+  }
+
+  .sidebar-brand {
+    padding: 0 0 0 6px;
+    flex: 1;
+  }
+
+  .sidebar-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    background: var(--bg-card);
+    color: var(--text-main);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-menu-toggle,
+  .mobile-sidebar-backdrop,
+  .mobile-sidebar-drawer,
+  .sidebar-close-btn {
+    display: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .content-canvas {
+    padding: 14px 12px 18px;
+  }
+
+  .card-panel-box,
+  .feature-card,
+  .stat-glow-card {
+    padding: 16px;
+  }
+
+  .student-stats-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .topbar-actions-right {
+    gap: 6px;
+  }
+
+  .topbar-dropdown-panel {
+    width: min(260px, calc(100vw - 18px));
+    right: -4px;
   }
 }

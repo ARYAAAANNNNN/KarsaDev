@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Plus, Send, FileText, NotebookPen } from 'lucide-react';
 
 export default function CurriculumLkpdPage({ modules = [], setModules }) {
@@ -65,19 +65,19 @@ export default function CurriculumLkpdPage({ modules = [], setModules }) {
                 </button>
             </div>
 
-            <div className="lkpd-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '18px' }}>
+            <div className="curriculum-grid lkpd-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '18px' }}>
                 {modules.map((module) => (
-                    <div key={module.id} className="card-panel-box" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '280px' }}>
+                    <div key={module.id} className="curriculum-card card-panel-box" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '280px' }}>
                         <div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                                <span style={{ fontSize: '0.75rem', color: 'var(--neon-cyan)', fontWeight: 700 }}>{module.subject}</span>
-                                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{module.duration}</span>
+                            <div className="module-meta-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+                                <span className="module-subject-badge" style={{ fontSize: '0.75rem', color: 'var(--neon-cyan)', fontWeight: 700 }}>{module.subject}</span>
+                                <span className="module-duration-badge" style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{module.duration}</span>
                             </div>
-                            <h3 style={{ fontSize: '1.05rem', marginBottom: '8px' }}>{module.title}</h3>
-                            <p style={{ color: 'var(--text-muted)', lineHeight: '1.55', fontSize: '0.86rem' }}>{module.description}</p>
+                            <h3 className="module-title" style={{ fontSize: '1.05rem', marginBottom: '8px' }}>{module.title}</h3>
+                            <p className="module-desc" style={{ color: 'var(--text-muted)', lineHeight: '1.55', fontSize: '0.86rem' }}>{module.description}</p>
                         </div>
 
-                        <div style={{ marginTop: '16px', display: 'flex', gap: '8px' }}>
+                        <div className="module-actions" style={{ marginTop: '16px', display: 'flex', gap: '8px' }}>
                             <a
                                 href={module.materialUrl}
                                 target="_blank"
