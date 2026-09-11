@@ -1,8 +1,46 @@
-import React from 'react';
+import { useState } from 'react';
 import { UserCog, ShieldCheck, Bell, MoonStar, Lock } from 'lucide-react';
 
 export default function SettingsPage({ profile, preferences, onProfileChange, onTogglePreference, onRoleChange }) {
     const role = profile?.role || 'student';
+    const [pendingRole, setPendingRole] = useState(null);
+    const [pinInput, setPinInput] = useState('');
+    const [pinError, setPinError] = useState('');
+    const [isPinModalOpen, setIsPinModalOpen] = useState(false);
+
+    const openRoleAuthorization = (targetRole) => {
+        if (targetRole === 'student') {
+            setPinError('');
+            onRoleChange('student');
+            return;
+        }
+
+        if (role === targetRole) {
+            return;
+        }
+
+        setPendingRole(targetRole);
+        setPinInput('');
+        setPinError('');
+        setIsPinModalOpen(true);
+    };
+
+    const handlePinSubmit = () => {
+        if (!pendingRole) return;
+
+        const expectedPin = pendingRole === 'teacher' ? 'GURU2026' : 'ADMIN2026';
+
+        if (pinInput.trim() !== expectedPin) {
+            setPinError('PIN tidak valid. Akses role ditolak.');
+            return;
+        }
+
+        onRoleChange(pendingRole);
+        setPinInput('');
+        setPinError('');
+        setPendingRole(null);
+        setIsPinModalOpen(false);
+    };
 
     return (
         <section>
@@ -82,7 +120,7 @@ export default function SettingsPage({ profile, preferences, onProfileChange, on
                             {['student', 'teacher', 'admin'].map((item) => (
                                 <button
                                     key={item}
-                                    onClick={() => onRoleChange(item)}
+                                    onClick={() => openRoleAuthorization(item)}
                                     style={{
                                         background: role === item ? 'rgba(168,85,247,0.12)' : 'transparent',
                                         border: role === item ? '1px solid var(--neon-purple)' : '1px solid var(--border-subtle)',
@@ -140,6 +178,45 @@ export default function SettingsPage({ profile, preferences, onProfileChange, on
                     </div>
                 </div>
             </div>
+
+            {isPinModalOpen && (
+                <div style={modalOverlayStyle} onClick={() => setIsPinModalOpen(false)}>
+                    <div style={modalBoxStyle} onClick={(e) => e.stopPropagation()}>
+                        <div style={{ marginBottom: '12px' }}>
+                            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Authorization required</div>
+                            <h3 style={{ color: 'var(--text-main)', marginTop: '6px' }}>Verifikasi PIN {pendingRole === 'teacher' ? 'Guru' : 'Admin'}</h3>
+                        </div>
+
+                        <label style={labelStyle}>PIN {pendingRole === 'teacher' ? 'Guru' : 'Admin'}</label>
+                        <input
+                            type="password"
+                            value={pinInput}
+                            onChange={(e) => setPinInput(e.target.value)}
+                            placeholder={pendingRole === 'teacher' ? 'GURU2026' : 'ADMIN2026'}
+                            style={{ ...inputStyle, marginBottom: '10px' }}
+                        />
+
+                        {pinError && (
+                            <div style={{ color: '#f87171', fontSize: '0.8rem', marginBottom: '10px' }}>{pinError}</div>
+                        )}
+
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '8px' }}>
+                            <button
+                                onClick={() => {
+                                    setIsPinModalOpen(false);
+                                    setPendingRole(null);
+                                    setPinInput('');
+                                    setPinError('');
+                                }}
+                                style={secondaryButtonStyle}
+                            >
+                                Batal
+                            </button>
+                            <button onClick={handlePinSubmit} style={primaryButtonStyle}>Verifikasi</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     );
 }
@@ -202,4 +279,44 @@ const toggleDotStyle = {
     borderRadius: '50%',
     background: '#fff',
     transition: 'all 0.2s ease'
+};
+
+const modalOverlayStyle = {
+    position: 'fixed',
+    inset: 0,
+    background: 'rgba(2, 6, 23, 0.6)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1200,
+    padding: '20px'
+};
+
+const modalBoxStyle = {
+    width: '100%',
+    maxWidth: '420px',
+    background: 'var(--bg-card)',
+    border: '1px solid var(--border-subtle)',
+    borderRadius: '18px',
+    padding: '22px 20px',
+    boxShadow: '0 22px 60px rgba(15, 23, 42, 0.4)'
+};
+
+const primaryButtonStyle = {
+    border: 'none',
+    background: 'linear-gradient(135deg, var(--neon-magenta), var(--neon-purple))',
+    color: 'white',
+    fontWeight: 700,
+    borderRadius: '10px',
+    padding: '10px 14px',
+    cursor: 'pointer'
+};
+
+const secondaryButtonStyle = {
+    border: '1px solid var(--border-subtle)',
+    background: 'transparent',
+    color: 'var(--text-main)',
+    borderRadius: '10px',
+    padding: '10px 14px',
+    cursor: 'pointer'
 };

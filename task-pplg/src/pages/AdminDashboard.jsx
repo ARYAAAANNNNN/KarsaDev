@@ -1,4 +1,3 @@
-import React from 'react';
 import SkillRadarChart from '../components/charts/SkillRadarChart';
 
 export default function AdminDashboard() {

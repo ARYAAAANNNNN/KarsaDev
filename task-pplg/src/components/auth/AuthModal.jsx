@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../lib/supabaseClient';
@@ -13,12 +13,6 @@ export default function AuthModal({ isOpen, onClose, initialView = 'login', onLo
     const [fullName, setFullName] = useState('');
     const [emailOrUsername, setEmailOrUsername] = useState('');
     const [password, setPassword] = useState('');
-
-    useEffect(() => {
-        setIsRegister(initialView === 'register');
-        setShowPassword(false);
-        setErrorMessage('');
-    }, [initialView, isOpen]);
 
     if (!isOpen) return null;
 

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { MessageSquareText, Megaphone, ArrowUpRight, Users, Sparkles, Plus, ThumbsUp } from 'lucide-react';
 
 const announcements = [

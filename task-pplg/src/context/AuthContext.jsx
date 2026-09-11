@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useContext, useEffect, useState } from 'react';
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
 
 const defaultProfile = {
@@ -27,7 +28,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [session, setSession] = useState(null);
     const [profile, setProfile] = useState(defaultProfile);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(Boolean(supabase));
 
     const syncAuthState = (nextSession) => {
         const nextUser = nextSession?.user ?? null;
@@ -38,7 +39,6 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         if (!supabase) {
-            setLoading(false);
             return;
         }
 

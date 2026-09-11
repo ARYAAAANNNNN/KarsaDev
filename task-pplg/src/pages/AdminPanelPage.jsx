@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ShieldAlert, Megaphone } from 'lucide-react';
 
 export default function AdminPanelPage({ users, onUpdateRole, onBroadcast }) {

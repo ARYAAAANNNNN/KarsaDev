@@ -1,9 +1,24 @@
-import React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Search, Bell, Mail, ChevronDown, LogOut } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
+const notifications = [
+    { id: 1, title: 'Tugas "API Integration" butuh revisi', time: '5 menit lalu', type: 'assignment' },
+    { id: 2, title: 'Nilai LKPD 02 sudah dipublikasikan', time: '1 jam lalu', type: 'grade' },
+    { id: 3, title: 'Deadline proyek SkillSync dalam 2 hari', time: 'Hari ini', type: 'deadline' },
+];
+
+const messages = [
+    { id: 1, sender: 'Pak Didi', subject: 'Feedback proyek frontend', preview: 'Saran utama: rapikan layout responsive dan perbaiki spacing.', time: '09:15' },
+    { id: 2, sender: 'Admin KarsaDev', subject: 'Pengumuman kelas', preview: 'Jadwal mentor session akan dimulai hari Senin pukul 10.00.', time: 'Kemarin' },
+    { id: 3, sender: 'Sarah', subject: 'Review grup proyek', preview: 'Saya sudah upload file revisi, silakan cek hasil pengerjaan.', time: 'Kemarin' },
+];
+
 export default function Header({ profile, preferences, onOpenAuth }) {
     const { user, logout } = useAuth();
+    const [openMenu, setOpenMenu] = useState(null);
+    const menuRef = useRef(null);
+
     const roleLabel = profile?.role === 'teacher' ? 'Teacher' : profile?.role === 'admin' ? 'Admin' : 'Student';
     const initials = (profile?.full_name || 'SK')
         .split(' ')
@@ -12,6 +27,17 @@ export default function Header({ profile, preferences, onOpenAuth }) {
         .join('')
         .toUpperCase();
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setOpenMenu(null);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
     return (
         <header className="app-topbar">
             <div className="topbar-search-box">
@@ -19,15 +45,72 @@ export default function Header({ profile, preferences, onOpenAuth }) {
                 <Search size={16} className="search-icon-right" />
             </div>
 
-            <div className="topbar-actions-right">
-                <button className="topbar-icon-btn" title="Notifikasi">
-                    <Bell size={18} />
-                    {preferences?.notifications && <span className="badge-counter">3</span>}
-                </button>
+            <div className="topbar-actions-right" ref={menuRef}>
+                <div className="topbar-menu-wrap">
+                    <button
+                        className={`topbar-icon-btn ${openMenu === 'notifications' ? 'active' : ''}`}
+                        title="Notifikasi"
+                        onClick={() => setOpenMenu(openMenu === 'notifications' ? null : 'notifications')}
+                    >
+                        <Bell size={18} />
+                        {preferences?.notifications && <span className="badge-counter">3</span>}
+                    </button>
 
-                <button className="topbar-icon-btn" title="Pesan Masuk">
-                    <Mail size={18} />
-                </button>
+                    {openMenu === 'notifications' && (
+                        <div className="topbar-dropdown-panel">
+                            <div className="topbar-dropdown-header">
+                                <strong>Notifikasi</strong>
+                                <span>Baru</span>
+                            </div>
+                            <div className="topbar-dropdown-list">
+                                {notifications.map((item) => (
+                                    <div key={item.id} className="dropdown-item">
+                                        <div className={`dot-indicator ${item.type}`} />
+                                        <div className="dropdown-item-copy">
+                                            <strong>{item.title}</strong>
+                                            <small>{item.time}</small>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                <div className="topbar-menu-wrap">
+                    <button
+                        className={`topbar-icon-btn ${openMenu === 'messages' ? 'active' : ''}`}
+                        title="Pesan Masuk"
+                        onClick={() => setOpenMenu(openMenu === 'messages' ? null : 'messages')}
+                    >
+                        <Mail size={18} />
+                        <span className="badge-counter mail-badge">2</span>
+                    </button>
+
+                    {openMenu === 'messages' && (
+                        <div className="topbar-dropdown-panel">
+                            <div className="topbar-dropdown-header">
+                                <strong>Pesan</strong>
+                                <span>2 baru</span>
+                            </div>
+                            <div className="topbar-dropdown-list">
+                                {messages.map((item) => (
+                                    <div key={item.id} className="dropdown-item message-item">
+                                        <div className="message-avatar">{item.sender.charAt(0)}</div>
+                                        <div className="dropdown-item-copy">
+                                            <div className="message-headline">
+                                                <strong>{item.sender}</strong>
+                                                <small>{item.time}</small>
+                                            </div>
+                                            <span>{item.subject}</span>
+                                            <small>{item.preview}</small>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
 
                 {user ? (
                     <>

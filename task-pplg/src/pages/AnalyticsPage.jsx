@@ -1,4 +1,3 @@
-import React from 'react';
 import { BarChart3, Printer, Trophy } from 'lucide-react';
 import SkillRadarChart from '../components/charts/SkillRadarChart';
 

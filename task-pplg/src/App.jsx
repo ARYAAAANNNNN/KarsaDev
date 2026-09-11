@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Sidebar from './components/common/Sidebar';
 import Header from './components/common/Header';
 import AuthModal from './components/auth/AuthModal';
@@ -210,11 +210,14 @@ export default function App() {
   const { profile, setProfile } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authInitialView, setAuthInitialView] = useState('login');
-  const [preferences, setPreferences] = useState({
-    darkMode: true,
-    notifications: true,
-    emailAlerts: true,
-    compactView: false,
+  const [preferences, setPreferences] = useState(() => {
+    const savedTheme = localStorage.getItem('karsadev-theme');
+    return {
+      darkMode: savedTheme ? savedTheme === 'dark' : true,
+      notifications: true,
+      emailAlerts: true,
+      compactView: false,
+    };
   });
   const [tasks, setTasks] = useState(initialTasks);
   const [modules, setModules] = useState(initialModules);
@@ -225,7 +228,9 @@ export default function App() {
   const [submissions, setSubmissions] = useState(initialSubmissions);
 
   useEffect(() => {
-    document.body.dataset.theme = preferences.darkMode ? 'dark' : 'light';
+    const theme = preferences.darkMode ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('karsadev-theme', theme);
   }, [preferences.darkMode]);
 
   const updateProfile = (field, value) => {
